@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir C:\\\\Users\\\\user\\\\Nueva carpeta\\\\gymOS:*)",
+      "Bash(pnpm install:*)",
+      "Bash(npm --version)",
+      "Bash(dir \"C:\\\\Users\\\\user\\\\Nueva carpeta\\\\gymOS\" /b)",
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(powershell:*)",
+      "Bash(cmd:*)",
+      "Bash(python -c ':*)",
+      "Bash(python.exe:*)",
+      "Bash(/c/Users/user/AppData/Roaming/npm/pnpm.cmd add:*)",
+      "Bash(wc -l app/**/*.tsx src/**/*.tsx)",
+      "Bash(npx expo:*)",
+      "Bash(pnpm add:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(pnpm --filter @gymos/web build)"
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "GymOS",
+    "slug": "gymos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "gymos",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.gymos.app"
+    },
+    "android": {
+      "package": "com.gymos.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-video",
+      "expo-notifications"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

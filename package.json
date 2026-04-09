@@ -1,0 +1,17 @@
+{
+  "name": "gymos",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev:web": "pnpm --filter @gymos/web dev",
+    "dev:mobile": "pnpm --filter @gymos/mobile start",
+    "build": "pnpm --filter @gymos/types build && pnpm --filter @gymos/utils build && pnpm --filter @gymos/web build",
+    "type-check": "pnpm -r run type-check",
+    "lint": "pnpm -r run lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.1"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

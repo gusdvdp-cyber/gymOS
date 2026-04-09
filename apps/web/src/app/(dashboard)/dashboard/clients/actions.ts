@@ -79,7 +79,7 @@ export async function createClientUser(formData: FormData): Promise<void> {
 
   if (authError) redirect(`/dashboard/clients/new?error=${encodeURIComponent(authError.message)}`)
 
-  await adminSupabase
+  await (adminSupabase as any)
     .from('profiles')
     .update({ gym_id: gymId, role: 'cliente', first_name: firstName, last_name: lastName, phone })
     .eq('id', authUser.user.id)

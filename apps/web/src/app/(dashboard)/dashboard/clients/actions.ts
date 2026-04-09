@@ -105,7 +105,8 @@ export async function assignRoutine(
     .eq('client_id', clientId)
     .eq('gym_id', gymId)
 
-  const { error } = await supabase.from('client_routine_assignments').upsert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any).from('client_routine_assignments').upsert({
     gym_id: gymId,
     client_id: clientId,
     routine_id: routineId,

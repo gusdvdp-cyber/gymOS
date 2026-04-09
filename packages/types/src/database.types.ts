@@ -7,56 +7,73 @@ export interface Database {
         Row: GymRow
         Insert: GymInsert
         Update: GymUpdate
+        Relationships: []
       }
       profiles: {
         Row: ProfileRow
         Insert: ProfileInsert
         Update: ProfileUpdate
+        Relationships: []
       }
       gym_branding: {
         Row: GymBrandingRow
         Insert: GymBrandingInsert
         Update: GymBrandingUpdate
+        Relationships: []
+      }
+      gym_invitations: {
+        Row: GymInvitationRow
+        Insert: GymInvitationInsert
+        Update: GymInvitationUpdate
+        Relationships: []
       }
       exercises: {
         Row: ExerciseRow
         Insert: ExerciseInsert
         Update: ExerciseUpdate
+        Relationships: []
       }
       routines: {
         Row: RoutineRow
         Insert: RoutineInsert
         Update: RoutineUpdate
+        Relationships: []
       }
       routine_days: {
         Row: RoutineDayRow
         Insert: RoutineDayInsert
         Update: RoutineDayUpdate
+        Relationships: []
       }
       routine_day_exercises: {
         Row: RoutineDayExerciseRow
         Insert: RoutineDayExerciseInsert
         Update: RoutineDayExerciseUpdate
+        Relationships: []
       }
       client_routine_assignments: {
         Row: ClientRoutineAssignmentRow
         Insert: ClientRoutineAssignmentInsert
         Update: ClientRoutineAssignmentUpdate
+        Relationships: []
       }
       workout_sessions: {
         Row: WorkoutSessionRow
         Insert: WorkoutSessionInsert
         Update: WorkoutSessionUpdate
+        Relationships: []
       }
       workout_set_logs: {
         Row: WorkoutSetLogRow
         Insert: WorkoutSetLogInsert
         Update: WorkoutSetLogUpdate
+        Relationships: []
       }
       body_measurements: {
         Row: BodyMeasurementRow
         Insert: BodyMeasurementInsert
         Update: BodyMeasurementUpdate
+        Relationships: []
       }
     }
     Functions: {
@@ -302,3 +319,25 @@ export type BodyMeasurementInsert = Omit<BodyMeasurementRow, 'id' | 'created_at'
 export type BodyMeasurementUpdate = Partial<
   Omit<BodyMeasurementRow, 'id' | 'gym_id' | 'client_id' | 'created_at'>
 >
+
+// ─── gym_invitations ──────────────────────────────────────────────────────────
+
+export interface GymInvitationRow {
+  id: string
+  gym_id: string
+  token: string
+  role: string
+  created_by: string
+  used_by: string | null
+  used_at: string | null
+  expires_at: string | null
+  created_at: string
+}
+
+export type GymInvitationInsert = Omit<GymInvitationRow, 'id' | 'token' | 'used_by' | 'used_at' | 'created_at'> & {
+  id?: string
+  token?: string
+  expires_at?: string | null
+}
+
+export type GymInvitationUpdate = Partial<Pick<GymInvitationRow, 'used_by' | 'used_at'>>

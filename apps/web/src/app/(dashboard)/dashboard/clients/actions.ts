@@ -79,10 +79,11 @@ export async function createClientUser(formData: FormData): Promise<void> {
 
   if (authError) redirect(`/dashboard/clients/new?error=${encodeURIComponent(authError.message)}`)
 
-  await adminSupabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const db = adminSupabase as any
+  await db
     .from('profiles')
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .update({ gym_id: gymId, role: 'cliente', first_name: firstName, last_name: lastName, phone } as any)
+    .update({ gym_id: gymId, role: 'cliente', first_name: firstName, last_name: lastName, phone })
     .eq('id', authUser.user.id)
 
   revalidatePath('/dashboard/clients')

@@ -77,7 +77,8 @@ export async function createGym(payload: CreateGymPayload): Promise<ApiResponse<
   }
 
   // 4. Actualizar el profile del admin
-  await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase as any)
     .from('profiles')
     .update({ gym_id: gym.id, role: 'admin' })
     .eq('id', authUser.user.id)
@@ -89,7 +90,8 @@ export async function createGym(payload: CreateGymPayload): Promise<ApiResponse<
 export async function updateGym(gymId: string, payload: UpdateGymPayload): Promise<ApiResponse<null>> {
   const supabase = createAdminClient()
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from('gyms')
     .update(payload)
     .eq('id', gymId)

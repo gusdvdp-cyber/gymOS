@@ -29,6 +29,8 @@ export default function LoginScreen() {
     setLoading(false)
     if (error) {
       Alert.alert('Error', 'Email o contraseña incorrectos')
+    } else {
+      router.replace('/(tabs)')
     }
   }
 

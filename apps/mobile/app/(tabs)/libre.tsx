@@ -156,7 +156,11 @@ export default function LibreScreen() {
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
-          <View style={styles.exCard}>
+          <TouchableOpacity
+            style={styles.exCard}
+            onPress={() => router.push(`/ejercicio/${item.id}`)}
+            activeOpacity={0.75}
+          >
             <View style={styles.exInfo}>
               <Text style={styles.exName}>{item.name}</Text>
               <Text style={styles.exMuscle}>
@@ -168,7 +172,7 @@ export default function LibreScreen() {
                 <Text style={[styles.videoBadgeText, { color: primaryColor }]}>VIDEO</Text>
               </View>
             )}
-          </View>
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <Text style={styles.emptyText}>No hay ejercicios disponibles</Text>

@@ -77,7 +77,8 @@ export async function updateExercise(exerciseId: string, formData: FormData): Pr
   const videoDurationStr = formData.get('video_duration') as string
   const videoDuration = videoDurationStr ? parseInt(videoDurationStr) : null
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from('exercises')
     .update({
       name,
@@ -100,7 +101,8 @@ export async function toggleExerciseActive(exerciseId: string, isActive: boolean
   const { gymId } = await getAdminContext()
   const supabase = await createClient()
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from('exercises')
     .update({ is_active: isActive })
     .eq('id', exerciseId)

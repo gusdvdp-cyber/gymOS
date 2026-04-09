@@ -46,7 +46,8 @@ export async function createCoachUser(formData: FormData): Promise<void> {
 
   if (authError) redirect(`/dashboard/coaches/new?error=${encodeURIComponent(authError.message)}`)
 
-  await adminSupabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (adminSupabase as any)
     .from('profiles')
     .update({ gym_id: gymId, role: 'profe', first_name: firstName, last_name: lastName, phone })
     .eq('id', authUser.user.id)
@@ -75,7 +76,8 @@ export async function toggleCoachActive(coachId: string, isActive: boolean): Pro
   const { gymId } = await getAdminContext()
   const supabase = await createClient()
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from('profiles')
     .update({ is_active: isActive })
     .eq('id', coachId)

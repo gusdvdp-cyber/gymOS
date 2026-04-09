@@ -8,17 +8,32 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://bfitatqjmbscsswqiuzp.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmaXRhdHFqbWJzY3Nzd3FpdXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODE4MTMsImV4cCI6MjA5MTI1NzgxM30.LA1p9sYCnt-hkARiBeQ0B-W3nyVPTbY8PADuFzVBo6M",
+        "EXPO_PUBLIC_APP_URL": "https://gymos.app"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://bfitatqjmbscsswqiuzp.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmaXRhdHFqbWJzY3Nzd3FpdXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODE4MTMsImV4cCI6MjA5MTI1NzgxM30.LA1p9sYCnt-hkARiBeQ0B-W3nyVPTbY8PADuFzVBo6M",
+        "EXPO_PUBLIC_APP_URL": "https://gymos.app"
       }
     },
     "production": {
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://bfitatqjmbscsswqiuzp.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmaXRhdHFqbWJzY3Nzd3FpdXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODE4MTMsImV4cCI6MjA5MTI1NzgxM30.LA1p9sYCnt-hkARiBeQ0B-W3nyVPTbY8PADuFzVBo6M",
+        "EXPO_PUBLIC_APP_URL": "https://gymos.app"
       }
     }
   },

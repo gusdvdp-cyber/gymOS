@@ -96,8 +96,11 @@ export async function registerWithInvitation(token: string, formData: FormData):
     redirect(`/unirse/${token}?error=${encodeURIComponent(authError.message)}`)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const db = supabase as any
+
   // Actualizar profile
-  await supabase
+  await db
     .from('profiles')
     .update({
       gym_id: invitation.gym_id,
@@ -109,7 +112,7 @@ export async function registerWithInvitation(token: string, formData: FormData):
     .eq('id', authUser.user.id)
 
   // Marcar invitación como usada
-  await supabase
+  await db
     .from('gym_invitations')
     .update({ used_at: new Date().toISOString(), used_by: authUser.user.id })
     .eq('token', token)

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
-import { Platform, Alert } from 'react-native'
 import * as Notifications from 'expo-notifications'
 import * as Device from 'expo-device'
+import Constants from 'expo-constants'
 import { supabase } from '@/lib/supabase'
 
 // How foreground notifications behave
@@ -26,7 +26,11 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
   if (finalStatus !== 'granted') return null
 
-  const token = (await Notifications.getExpoPushTokenAsync()).data
+  const projectId =
+    Constants.expoConfig?.extra?.eas?.projectId ??
+    Constants.easConfig?.projectId
+
+  const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data
   return token
 }
 

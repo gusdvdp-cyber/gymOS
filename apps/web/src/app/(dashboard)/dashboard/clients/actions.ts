@@ -98,7 +98,8 @@ export async function assignRoutine(
   const supabase = await createClient()
 
   // Desactivar asignaciones previas del cliente
-  await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase as any)
     .from('client_routine_assignments')
     .update({ is_active: false })
     .eq('client_id', clientId)
@@ -139,7 +140,8 @@ export async function toggleClientActive(clientId: string, isActive: boolean): P
   const { gymId } = await getAdminContext()
   const supabase = await createClient()
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from('profiles')
     .update({ is_active: isActive })
     .eq('id', clientId)

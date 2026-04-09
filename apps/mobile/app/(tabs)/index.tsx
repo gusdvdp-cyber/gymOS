@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -20,21 +20,31 @@ import type { RoutineDayWithExercises } from '@gymos/types'
 import { useDailyMotivation } from '@/hooks/useMotivation'
 
 export default function MiRutinaScreen() {
-  const { routine, assignedAt, loading, error, refresh } = useMyRoutine()
+  const { routine, loading, error, refresh } = useMyRoutine()
   const { primaryColor, gymName } = useTheme()
   const { session } = useSession()
   const router = useRouter()
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
   const [starting, setStarting] = useState(false)
+  const [completedSessions, setCompletedSessions] = useState(0)
 
-  function getWeeksInfo(): { current: number; total: number | null } | null {
-    if (!assignedAt) return null
-    const ms = Date.now() - new Date(assignedAt).getTime()
-    const current = Math.max(1, Math.floor(ms / (7 * 24 * 60 * 60 * 1000)) + 1)
-    return { current, total: routine?.total_weeks ?? null }
-  }
+  useEffect(() => {
+    if (!session || !routine) return
+    supabase
+      .from('workout_sessions')
+      .select('id', { count: 'exact', head: true })
+      .eq('client_id', session.user.id)
+      .eq('routine_id', routine.id)
+      .not('finished_at', 'is', null)
+      .then(({ count }) => setCompletedSessions(count ?? 0))
+  }, [session, routine])
 
-  const weeksInfo = getWeeksInfo()
+  const daysInCycle = routine?.routine_days?.length ?? 1
+  const currentCycle = Math.floor(completedSessions / daysInCycle) + 1
+  const weeksInfo = routine
+    ? { current: currentCycle, total: routine.total_weeks ?? null }
+    : null
+
   const motivation = useDailyMotivation()
 
   async function handleStart(day: RoutineDayWithExercises) {

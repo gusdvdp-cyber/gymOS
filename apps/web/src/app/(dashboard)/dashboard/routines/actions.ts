@@ -107,7 +107,8 @@ export async function updateRoutineWithDays(routineId: string, payload: CreateRo
   const supabase = await createClient()
 
   // 1. Actualizar metadata de la rutina
-  const { error: updateError } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: updateError } = await (supabase as any)
     .from('routines')
     .update({
       name: payload.state.name,

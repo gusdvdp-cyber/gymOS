@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '@gymos/types'
 
 /**
  * Cliente con SERVICE_ROLE_KEY — bypasea RLS.
@@ -14,7 +13,7 @@ export function createAdminClient() {
     throw new Error('Variables de entorno de Supabase no configuradas')
   }
 
-  return createClient<Database>(url, key, {
+  return createClient(url, key, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

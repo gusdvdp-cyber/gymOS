@@ -37,7 +37,7 @@ function generateTempPassword(): string {
   return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
 }
 
-export async function createGym(payload: CreateGymPayload): Promise<ApiResponse<{ gymId: string; tempPassword: string }>> {
+export async function createGym(payload: CreateGymPayload): Promise<ApiResponse<{ gymId: string }>> {
   const supabase = createAdminClient()
 
   const slug = slugify(payload.slug || payload.name)

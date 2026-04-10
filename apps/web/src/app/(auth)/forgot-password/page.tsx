@@ -1,15 +1,34 @@
-import type { Metadata } from 'next'
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
-import { sendPasswordReset } from './actions'
+import { createClient } from '@/lib/supabase/client'
 
-export const metadata: Metadata = { title: 'Recuperar contraseña' }
+export default function ForgotPasswordPage() {
+  const [email, setEmail] = useState('')
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
-export default async function ForgotPasswordPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ sent?: string; error?: string }>
-}) {
-  const { sent, error } = await searchParams
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError(null)
+    setLoading(true)
+
+    const supabase = createClient()
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${baseUrl}/callback?next=/reset-password`,
+    })
+
+    setLoading(false)
+    if (error) {
+      setError(error.message)
+    } else {
+      setSent(true)
+    }
+  }
 
   if (sent) {
     return (
@@ -39,11 +58,9 @@ export default async function ForgotPasswordPage({
         </p>
       </div>
 
-      <form action={sendPasswordReset} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
-          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">
-            {decodeURIComponent(error)}
-          </div>
+          <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
         )}
 
         <div>
@@ -54,16 +71,19 @@ export default async function ForgotPasswordPage({
             type="email"
             required
             autoComplete="email"
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="tu@email.com"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none"
+          disabled={loading}
+          className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none disabled:opacity-50"
         >
-          Enviar link de recuperación
+          {loading ? 'Enviando...' : 'Enviar link de recuperación'}
         </button>
       </form>
 

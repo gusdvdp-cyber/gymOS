@@ -16,7 +16,7 @@ export default async function NewExercisePage({
         <Link href="/dashboard/exercises" className="back-link">← Ejercicios</Link>
         <h1 className="page-title" style={{ fontSize: 36, marginTop: 8 }}>NUEVO EJERCICIO</h1>
       </div>
-      <ExerciseForm error={error} />
+      <ExerciseForm {...(error ? { error } : {})} />
     </div>
   )
 }

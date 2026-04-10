@@ -41,7 +41,7 @@ export default async function ExercisePage({
         </div>
       )}
 
-      <ExerciseForm exercise={exercise} error={error} />
+      <ExerciseForm exercise={exercise} {...(error ? { error } : {})} />
     </div>
   )
 }

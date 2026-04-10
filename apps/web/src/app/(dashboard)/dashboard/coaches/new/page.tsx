@@ -12,7 +12,7 @@ export default async function NewCoachPage({ searchParams }: { searchParams: Pro
         <Link href="/dashboard/coaches" className="back-link">← Profes</Link>
         <h1 className="page-title" style={{ fontSize: 36, marginTop: 8 }}>NUEVO PROFE</h1>
       </div>
-      <CoachForm error={error} />
+      <CoachForm {...(error ? { error } : {})} />
     </div>
   )
 }

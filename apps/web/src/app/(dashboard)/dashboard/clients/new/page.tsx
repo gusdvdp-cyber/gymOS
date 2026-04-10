@@ -12,7 +12,7 @@ export default async function NewClientPage({ searchParams }: { searchParams: Pr
         <Link href="/dashboard/clients" className="back-link">← Clientes</Link>
         <h1 className="page-title" style={{ fontSize: 36, marginTop: 8 }}>NUEVO CLIENTE</h1>
       </div>
-      <ClientForm error={error} />
+      <ClientForm {...(error ? { error } : {})} />
     </div>
   )
 }

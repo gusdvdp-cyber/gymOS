@@ -245,8 +245,8 @@ export default function SesionScreen() {
   }
 
   const exerciseList = isFree
-    ? freeExercises.map(e => ({ id: e.exercise_id, exerciseId: e.exercise_id, name: e.exerciseName, muscle: e.muscleGroup, loggedSets: e.loggedSets, prescribed: null as { sets: number; reps: string; weight: number | null } | null }))
-    : prescribed.map(p => ({ id: p.id, exerciseId: p.exercise_id, name: p.exercises.name, muscle: p.exercises.muscle_group, loggedSets: p.loggedSets, prescribed: { sets: p.sets, reps: p.reps, weight: p.suggested_weight } }))
+    ? freeExercises.map(e => ({ id: e.exercise_id, exerciseId: e.exercise_id, name: e.exerciseName, muscle: e.muscleGroup, loggedSets: e.loggedSets, videoUrl: null as string | null, prescribed: null as { sets: number; reps: string; weight: number | null } | null }))
+    : prescribed.map(p => ({ id: p.id, exerciseId: p.exercise_id, name: p.exercises.name, muscle: p.exercises.muscle_group, loggedSets: p.loggedSets, videoUrl: p.exercises.video_url ?? null, prescribed: { sets: p.sets, reps: p.reps, weight: p.suggested_weight } }))
 
   const pickerFiltered = allExercises.filter(e => e.name.toLowerCase().includes(pickerSearch.toLowerCase()))
 
@@ -322,9 +322,20 @@ export default function SesionScreen() {
                         </Text>
                       )}
                     </View>
-                    <Text style={[styles.setCount, { color: ex.loggedSets.length > 0 ? primaryColor : '#333333' }]}>
-                      {ex.loggedSets.length} series
-                    </Text>
+                    <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                      <Text style={[styles.setCount, { color: ex.loggedSets.length > 0 ? primaryColor : '#333333' }]}>
+                        {ex.loggedSets.length} series
+                      </Text>
+                      {ex.videoUrl && (
+                        <TouchableOpacity
+                          onPress={() => router.push(`/ejercicio/${ex.exerciseId}` as any)}
+                          activeOpacity={0.7}
+                          style={[styles.videoBtn, { borderColor: primaryColor }]}
+                        >
+                          <Text style={[styles.videoBtnText, { color: primaryColor }]}>▶ VIDEO</Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
                   </View>
 
                   {ex.loggedSets.length > 0 && (
@@ -522,6 +533,8 @@ const styles = StyleSheet.create({
   exMuscle: { fontSize: 11, color: '#444444', marginTop: 2, textTransform: 'uppercase', letterSpacing: 0.5 },
   exPrescribed: { fontSize: 12, fontWeight: '700', marginTop: 6 },
   setCount: { fontSize: 12, fontWeight: '800', letterSpacing: 0.5 },
+  videoBtn: { borderWidth: 1, borderRadius: 6, paddingHorizontal: 8, paddingVertical: 4 },
+  videoBtnText: { fontSize: 9, fontWeight: '900', letterSpacing: 1.5 },
 
   setsTable: { marginBottom: 8, backgroundColor: '#1a1a1a', borderRadius: 8, overflow: 'hidden' },
   setsHeaderRow: { flexDirection: 'row', paddingHorizontal: 12, paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: '#2a2a2a' },

@@ -35,34 +35,45 @@ export default function ExerciseForm({ exercise, error: initialError }: Exercise
       return
     }
 
+    setUploadError(null)
+    setUploadProgress('Subiendo video...')
+
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { setUploadError('No autenticado'); setUploadProgress(null); return }
+
+    const { data: profile } = await supabase.from('profiles').select('gym_id').eq('id', user.id).single()
+    if (!profile?.gym_id) { setUploadError('Sin gym asignado'); setUploadProgress(null); return }
+
+    const ext = file.name.split('.').pop()
+    const path = `gyms/${profile.gym_id}/exercises/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+
+    const { error: uploadErr } = await supabase.storage.from('gym-assets').upload(path, file, {
+      contentType: file.type,
+    })
+    if (uploadErr) { setUploadError(uploadErr.message); setUploadProgress(null); return }
+
+    const { data: { publicUrl } } = supabase.storage.from('gym-assets').getPublicUrl(path)
+
+    // Intentar obtener duración; si el browser no soporta el codec, se sube igual sin duración
     const objectUrl = URL.createObjectURL(file)
     const video = document.createElement('video')
     video.src = objectUrl
-    video.onloadedmetadata = async () => {
+    video.onloadedmetadata = () => {
       URL.revokeObjectURL(objectUrl)
       if (video.duration > 30) {
         setUploadError('El video supera los 30 segundos.')
+        setUploadProgress(null)
         return
       }
-      setUploadError(null)
-      setUploadProgress('Subiendo video...')
-
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setUploadError('No autenticado'); return }
-
-      const { data: profile } = await supabase.from('profiles').select('gym_id').eq('id', user.id).single()
-      if (!profile?.gym_id) { setUploadError('Sin gym asignado'); return }
-
-      const ext = file.name.split('.').pop()
-      const path = `gyms/${profile.gym_id}/exercises/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
-
-      const { error: uploadErr } = await supabase.storage.from('gym-assets').upload(path, file)
-      if (uploadErr) { setUploadError(uploadErr.message); setUploadProgress(null); return }
-
-      const { data: { publicUrl } } = supabase.storage.from('gym-assets').getPublicUrl(path)
-      setVideoUrl(publicUrl)
       setVideoDuration(Math.round(video.duration))
+      setVideoUrl(publicUrl)
+      setUploadProgress(null)
+    }
+    video.onerror = () => {
+      URL.revokeObjectURL(objectUrl)
+      // El browser no puede leer el video localmente, pero se subió OK
+      setVideoUrl(publicUrl)
       setUploadProgress(null)
     }
   }
